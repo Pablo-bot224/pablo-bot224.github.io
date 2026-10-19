@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Ingesta de Agua Diaria | VitaSalud</title>
+  <style>
+    :root { --primary-color: #0d9488; --secondary-color: #1e293b; --bg-light: #f8fafc; --text-main: #334155; --border-color: #e2e8f0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.7; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+    header { background-color: #ffffff; border-bottom: 1px solid var(--border-color); padding: 1rem 0; position: sticky; top: 0; z-index: 10; }
+    .nav-wrapper { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    .logo { font-size: 1.5rem; font-weight: 800; color: var(--secondary-color); }
+    .logo span { color: var(--primary-color); }
+    .btn-back { color: var(--primary-color); font-weight: 600; font-size: 0.95rem; }
+    
+    .calc-header { padding: 3rem 0 1.5rem 0; text-align: center; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
+    .calc-header h1 { font-size: 2.3rem; color: var(--secondary-color); margin-bottom: 0.5rem; }
+    .calc-header p { color: #64748b; font-size: 1.05rem; }
+
+    .calc-container { background: #ffffff; padding: 2.5rem; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 3rem; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group.full { grid-column: span 2; }
+    label { font-weight: 600; margin-bottom: 0.5rem; color: var(--secondary-color); font-size: 0.95rem; }
+    input, select { padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; background-color: #f8fafc; }
+    input:focus, select:focus { outline: none; border-color: var(--primary-color); background-color: #fff; }
+
+    .btn-calculate { background-color: var(--primary-color); color: white; border: none; padding: 0.9rem; font-size: 1.05rem; font-weight: 600; border-radius: 6px; cursor: pointer; width: 100%; transition: background 0.2s; }
+    .btn-calculate:hover { background-color: #0f766e; }
+
+    .results-box { display: none; margin-top: 2rem; padding: 2rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; text-align: center; }
+    .results-box h2 { color: #166534; margin-bottom: 0.5rem; font-size: 1.5rem; }
+    .results-box p { font-size: 1.3rem; color: #14532d; font-weight: 700; }
+
+    footer { background-color: var(--secondary-color); color: #94a3b8; padding: 2rem 0; text-align: center; font-size: 0.85rem; }
+    @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .form-group.full { grid-column: span 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-wrapper">
+      <a href="index.html" class="logo">Vita<span>Salud</span></a>
+      <a href="index.html" class="btn-back">← Volver al Inicio</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="calc-header">
+      <h1>Calculadora de Hidratación y Agua Diaria</h1>
+      <p>Descubre cuántos litros de agua debes beber al día según tu peso y tu nivel de actividad física.</p>
+    </div>
+
+    <div class="calc-container">
+      <form id="aguaForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="peso">Tu Peso (kg)</label>
+            <input type="number" id="peso" step="0.1" placeholder="Ej. 70" required min="30" max="250">
+          </div>
+          <div class="form-group">
+            <label for="deporte">Ejercicio Diario (minutos)</label>
+            <input type="number" id="deporte" placeholder="Ej. 30" required min="0" max="300">
+          </div>
+        </div>
+        <button type="button" class="btn-calculate" onclick="calcularAgua()">Calcular Agua Recomendada</button>
+      </form>
+
+      <div id="resultsBox" class="results-box">
+        <h2>Recomendación Diaria de Hidratación</h2>
+        <p id="resAgua">-</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 VitaSalud. Divulgación de hábitos saludables.</p>
+    </div>
+  </footer>
+
+  <script>
+    function calcularAgua() {
+      const peso = parseFloat(document.getElementById('peso').value);
+      const deporte = parseFloat(document.getElementById('deporte').value);
+
+      if (!peso || isNaN(deporte)) {
+        alert("Por favor, completa los campos correctamente.");
+        return;
+      }
+
+      // Cálculo aproximado: 35ml por kg de peso + extra por cada 30 min de ejercicio (~350ml)
+      let litrosBase = (peso * 0.035);
+      let extraDeporte = (deporte / 30) * 0.35;
+      let totalLitros = (litrosBase + extraDeporte).toFixed(2);
+
+      document.getElementById('resAgua').innerText = totalLitros + " litros diarios recomendados";
+      document.getElementById('resultsBox').style.display = "block";
+    }
+  </script>
+</body>
+</html>
