@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Calorías y Plan de Dieta Personalizada | VitaSalud</title>
+  <style>
+    :root { --primary-color: #0d9488; --secondary-color: #1e293b; --bg-light: #f8fafc; --text-main: #334155; --border-color: #e2e8f0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.7; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 950px; margin: 0 auto; padding: 0 1.5rem; }
+    header { background-color: #ffffff; border-bottom: 1px solid var(--border-color); padding: 1rem 0; position: sticky; top: 0; z-index: 10; }
+    .nav-wrapper { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    .logo { font-size: 1.5rem; font-weight: 800; color: var(--secondary-color); }
+    .logo span { color: var(--primary-color); }
+    .btn-back { color: var(--primary-color); font-weight: 600; font-size: 0.95rem; }
+    
+    .calc-header { padding: 3rem 0 1.5rem 0; text-align: center; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
+    .calc-header h1 { font-size: 2.4rem; color: var(--secondary-color); margin-bottom: 0.5rem; }
+    .calc-header p { color: #64748b; font-size: 1.05rem; max-width: 700px; margin: 0 auto; }
+
+    .calc-container { background: #ffffff; padding: 2.5rem; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 3rem; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group.full { grid-column: span 2; }
+    label { font-weight: 600; margin-bottom: 0.5rem; color: var(--secondary-color); font-size: 0.95rem; }
+    input, select { padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; background-color: #f8fafc; }
+    input:focus, select:focus { outline: none; border-color: var(--primary-color); background-color: #fff; }
+
+    .btn-calculate { background-color: var(--primary-color); color: white; border: none; padding: 1rem; font-size: 1.1rem; font-weight: 600; border-radius: 6px; cursor: pointer; width: 100%; transition: background 0.2s; }
+    .btn-calculate:hover { background-color: #0f766e; }
+
+    /* RESULTADOS Y DIETA */
+    .results-box { display: none; margin-top: 2.5rem; padding: 2.5rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; }
+    .results-box h2 { color: #166534; margin-bottom: 1.5rem; font-size: 1.8rem; border-bottom: 2px solid #bbf7d0; padding-bottom: 0.5rem; }
+    
+    .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+    .result-card { background: white; padding: 1.2rem; border-radius: 8px; border: 1px solid #86efac; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+    .result-card h4 { font-size: 0.85rem; color: #166534; text-transform: uppercase; margin-bottom: 0.4rem; letter-spacing: 0.5px; }
+    .result-card p { font-size: 1.4rem; font-weight: 700; color: #14532d; }
+
+    .diet-plan-section { background: white; padding: 2rem; border-radius: 8px; border: 1px solid #86efac; margin-top: 1.5rem; }
+    .diet-plan-section h3 { color: #166534; margin-bottom: 1rem; font-size: 1.4rem; }
+    .diet-plan-section p { margin-bottom: 1rem; color: var(--text-main); font-size: 1.05rem; }
+    
+    .meal-list { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1.5rem; }
+    .meal-item { background: #f8fafc; padding: 1.2rem; border-radius: 6px; border-left: 4px solid var(--primary-color); border: 1px solid var(--border-color); }
+    .meal-item h4 { color: var(--secondary-color); font-size: 1.1rem; margin-bottom: 0.3rem; }
+    .meal-item p { color: #475569; font-size: 0.95rem; margin-bottom: 0; }
+
+    footer { background-color: var(--secondary-color); color: #94a3b8; padding: 2.5rem 0; text-align: center; font-size: 0.85rem; }
+
+    @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .form-group.full { grid-column: span 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-wrapper">
+      <a href="index.html" class="logo">Vita<span>Salud</span></a>
+      <a href="index.html" class="btn-back">← Volver al Inicio</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="calc-header">
+      <h1>Calculadora de Calorías y Plan de Dieta Personalizada</h1>
+      <p>Introduce tus datos antropométricos y tu objetivo físico para recibir una recomendación exacta de calorías, macronutrientes y un menú diario completo adaptado a tus necesidades.</p>
+    </div>
+
+    <div class="calc-container">
+      <form id="calcForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="edad">Edad (años)</label>
+            <input type="number" id="edad" placeholder="Ej. 30" required min="15" max="100">
+          </div>
+          <div class="form-group">
+            <label for="genero">Género</label>
+            <select id="genero" required>
+              <option value="hombre">Hombre</option>
+              <option value="mujer">Mujer</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="peso">Peso (kg)</label>
+            <input type="number" id="peso" step="0.1" placeholder="Ej. 70" required min="35" max="250">
+          </div>
+          <div class="form-group">
+            <label for="altura">Altura (cm)</label>
+            <input type="number" id="altura" placeholder="Ej. 175" required min="120" max="230">
+          </div>
+          <div class="form-group">
+            <label for="actividad">Nivel de Actividad Física</label>
+            <select id="actividad" required>
+              <option value="1.2">Sedentario (poco o nada de ejercicio)</option>
+              <option value="1.375">Ligero (ejercicio ligero 1-3 días/sem)</option>
+              <option value="1.55">Moderado (ejercicio moderado 3-5 días/sem)</option>
+              <option value="1.725">Intenso (ejercicio fuerte 6-7 días/sem)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="objetivo">Objetivo Físico Deseado</label>
+            <select id="objetivo" required>
+              <option value="deficit">Perder Grasa Corporal (Déficit)</option>
+              <option value="mantenimiento">Mantener Peso y Estilo Saludable</option>
+              <option value="volumen">Ganar Masa Muscular (Superávit)</option>
+            </select>
+          </div>
+        </div>
+        <button type="button" class="btn-calculate" onclick="calcularDieta()">Generar Mi Plan Nutricional y Menú</button>
+      </form>
+
+      <!-- RESULTADOS -->
+      <div id="resultsBox" class="results-box">
+        <h2>Tu Diagnóstico y Plan Nutricional</h2>
+        <div class="results-grid">
+          <div class="result-card">
+            <h4>Calorías de Mantenimiento</h4>
+            <p id="resMantenimiento">-</p>
+          </div>
+          <div class="result-card">
+            <h4>Calorías Objetivo</h4>
+            <p id="resObjetivo">-</p>
+          </div>
+        </div>
+
+        <div class="diet-plan-section">
+          <h3 id="tituloObjetivo">Estrategia Nutricional</h3>
+          <p id="descObjetivo">-</p>
+          
+          <h4 style="color: var(--secondary-color); margin-top: 1.2rem; margin-bottom: 0.5rem;">Distribución Sugerida de Macronutrientes:</h4>
+          <ul id="listaMacros" style="margin-left: 1.5rem; margin-bottom: 1.5rem; color: var(--text-main);">
+            <!-- Se llena por JavaScript -->
+          </ul>
+
+          <h3 style="margin-top: 2rem;">Propuesta de Menú Diario Modelo</h3>
+          <p style="font-size: 0.95rem; color: #64748b;">Ejemplo práctico de distribución de comidas para alinear con tu objetivo calórico:</p>
+          
+          <div class="meal-list" id="listaMenu">
+            <!-- Se llena por JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p><strong>Aviso Médico Legal:</strong> Herramienta orientativa de carácter divulgativo. Consulte con un nutricionista colegiado para pautas clínicas personalizadas.</p>
+      <p style="margin-top: 0.5rem;">© 2026 VitaSalud. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    function calcularDieta() {
+      const edad = parseFloat(document.getElementById('edad').value);
+      const genero = document.getElementById('genero').value;
+      const peso = parseFloat(document.getElementById('peso').value);
+      const altura = parseFloat(document.getElementById('altura').value);
+      const actividad = parseFloat(document.getElementById('actividad').value);
+      const objetivo = document.getElementById('objetivo').value;
+
+      if (!edad || !peso || !altura) {
+        alert("Por favor, completa todos los campos numéricos correctamente.");
+        return;
+      }
+
+      // Ecuación de Harris-Benedict (Mifflin-St Jeor)
+      let tmb = (10 * peso) + (6.25 * altura) - (5 * edad);
+      if (genero === 'hombre') {
+        tmb += 5;
+      } else {
+        tmb -= 161;
+      }
+
+      let caloriasMantenimiento = Math.round(tmb * actividad);
+      let caloriasObjetivo = caloriasMantenimiento;
+      let titulo = "";
+      let descripcion = "";
+      let macros = "";
+      let menu = "";
+
+      if (objetivo === 'deficit') {
+        caloriasObjetivo = caloriasMantenimiento - 400;
+        titulo = "Estrategia Orientada a la Pérdida de Grasa (Déficit Calórico)";
+        descripcion = "Para reducir el tejido adiposo preservando la masa muscular magra, aplicamos un déficit controlado. Es crucial priorizar alimentos saciantes, ricos en fibra y proteína de alta calidad.";
+        macros = `
+          <li><strong>Proteínas (~2.0g/kg):</strong> Esenciales para proteger el músculo y mantener la saciedad.</li>
+          <li><strong>Grasas Saludables (25-30%):</strong> Aceite de oliva virgen extra, aguacate y frutos secos.</li>
+          <li><strong>Hidratos de Carbono Complejos:</strong> Verduras, legumbres y granos integrales en porciones moderadas.</li>
+        `;
+        menu = `
+          <div class="meal-item">
+            <h4>🌅 Desayuno</h4>
+            <p>Café o infusión sin azúcar + Tostada de pan integral con aguacate y huevo revuelto + Pieza de fruta fresca (kiwi o manzana).</p>
+          </div>
+          <div class="meal-item">
+            <h4>🥣 Media Mañana</h4>
+            <p>Yogur natural o queso fresco batido 0% con un puñado pequeño de frutos secos naturales.</p>
+          </div>
+          <div class="meal-item">
+            <h4>🍽️ Comida</h4>
+            <p>Pechuga de pollo o pescado blanco a la plancha con abundante guarnición de verduras al vapor y una porción moderada de quinoa o arroz integral.</p>
+          </div>
+          <div class="meal-item">
+            <h4>🍏 Merienda</h4>
+            <p>Infusión relajante y una infusión o un puñado ligero de nueces.</p>
+          </div>
+          <div class="meal-item">
+            <h4>🌙 Cena</h4>
+            <p>Crema de verduras ligera + Tortilla francesa de dos claras y un huevo con espinacas salteadas al ajillo.</p>
+          </div>
+        `;
+      } else if (objetivo === 'volumen') {
+        caloriasObjetivo = caloriasMantenimiento + 350;
+        titulo = "Estrategia Orientada a la Ganancia de Masa Muscular (Superávit)";
+        descripcion = "Para promover la hipertrofia muscular y el crecimiento de tejido nuevo, se requiere un aporte calórico ligeramente superior al gasto energético, combinado con entrenamiento de fuerza.";
+        macros = `
+          <li><strong>Proteínas (1.8g - 2.2g/kg):</strong> Materia prima indispensable para la síntesis proteica muscular.</li>
+          <li><strong>Hidratos de Carbono Abundantes:</strong> Para rellenar los depósitos de glucógeno y asegurar energía en los entrenamientos.</li>
+          <li><strong>Grasas Saludables:</strong> Para garantizar un entorno hormonal óptimo y equilibrado.</li>
+        `;
+        menu = `
+          <div class="meal-item">
+            <h4>🌅 Desayuno</h4>
+            <p>Porridge de avena con leche o bebida vegetal, plátano en rodajas, una cucharada de crema de cacahuete 100% y trocitos de chocolate negro.</p>
+          </div>
+          <div class="meal-item">
+            <h4>🥣 Media Mañana</h4>
+            <p>Sándwich de pan integral con atún al natural o pechuga de pavo de alta calidad y aceite de oliva.</p>
+          </div>
+          <div class="meal-item">
+            <h4>🍽️ Comida</h4>
+            <p>Lentejas o garbanzos guisados con verduras y patata + Filete de ternera magra o salmón + Pan integral.</p>
+          </div>
+          <div class="meal-item">
+            <h4>🍏 Merienda</h4>
+            <p>Batido casero de plátano, avena, leche y proteína en polvo (o queso fresco batido con frutos rojos).</p>
+          </div>
+          <div class="meal-item">
+            <h4>🌙 Cena</h4>
+            <p>Pescado azul al horno (salmón o lubina) con patata asada al romero y ensalada mixta con aceite de oliva virgen extra.</p>
+          </div>
+        `;
+      } else {
+        titulo = "Estrategia de Mantenimiento y Salud Global";
+        descripcion = "Tu pauta está calibrada para conservar tu peso corporal actual, optimizando los niveles de energía vital diaria y promoviendo una alimentación equilibrada.";
+        macros = `
+          <li><strong>Proteínas (~1.6g/kg):</strong> Mantenimiento óptimo de estructuras corporales.</li>
+          <li><strong>Hidratos y Grasas Flexibles:</strong> Basados en productos frescos de temporada y alimentos de alta densidad nutricional.</li>
+        `;
+        menu = `
+          <div class="meal-item">
+            <h4>🌅 Desayuno</h4>
+            <p>Tostada de pan de masa madre con tomate natural, aceite de oliva y jamón serrano o queso fresco + Café o té.</p>
+          </div>
+          <div class="meal-item">
+            <h4>🥣 Media Mañana</h4>
+            <p>Pieza de fruta de temporada y un puñado de almendras o nueces.</p>
+          </div>
+          <div class="meal-item">
+            <h4>🍽️ Comida</h4>
+            <p>Pechuga de pavo al horno con hierbas provenzales, patata cocida y ensalada completa de tomate, lechuga y pepino.</p>
+          </div>
+          <div class="meal-item">
+            <h4>🍏 Merienda</h4>
+            <p>Yogur natural con unos trozos de fruta fresca y canela.</p>
+          </div>
+          <div class="meal-item">
+            <h4>🌙 Cena</h4>
+            <p>Merluza o dorada a la plancha con puré de calabacín casero y un chorrito de aceite de oliva en crudo.</p>
+          </div>
+        `;
+      }
+
+      document.getElementById('resMantenimiento').innerText = caloriasMantenimiento + " kcal";
+      document.getElementById('resObjetivo').innerText = caloriasObjetivo + " kcal";
+      document.getElementById('tituloObjetivo').innerText = titulo;
+      document.getElementById('descObjetivo').innerText = descripcion;
+      document.getElementById('listaMacros').innerHTML = macros;
+      document.getElementById('listaMenu').innerHTML = menu;
+
+      document.getElementById('resultsBox').style.display = "block";
+      document.getElementById('resultsBox').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
