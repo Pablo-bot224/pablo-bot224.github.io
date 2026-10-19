@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Zonas de Frecuencia Cardíaca | VitaSalud</title>
+  <style>
+    :root { --primary-color: #0d9488; --secondary-color: #1e293b; --bg-light: #f8fafc; --text-main: #334155; --border-color: #e2e8f0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+    body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.7; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; }
+    header { background-color: #ffffff; border-bottom: 1px solid var(--border-color); padding: 1rem 0; position: sticky; top: 0; z-index: 10; }
+    .nav-wrapper { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+    .logo { font-size: 1.5rem; font-weight: 800; color: var(--secondary-color); }
+    .logo span { color: var(--primary-color); }
+    .btn-back { color: var(--primary-color); font-weight: 600; font-size: 0.95rem; }
+    
+    .calc-header { padding: 3rem 0 1.5rem 0; text-align: center; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
+    .calc-header h1 { font-size: 2.3rem; color: var(--secondary-color); margin-bottom: 0.5rem; }
+    .calc-header p { color: #64748b; font-size: 1.05rem; }
+
+    .calc-container { background: #ffffff; padding: 2.5rem; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-bottom: 3rem; }
+    .form-group { display: flex; flex-direction: column; margin-bottom: 1.5rem; }
+    label { font-weight: 600; margin-bottom: 0.5rem; color: var(--secondary-color); font-size: 0.95rem; }
+    input { padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; background-color: #f8fafc; }
+    input:focus { outline: none; border-color: var(--primary-color); background-color: #fff; }
+
+    .btn-calculate { background-color: var(--primary-color); color: white; border: none; padding: 0.9rem; font-size: 1.05rem; font-weight: 600; border-radius: 6px; cursor: pointer; width: 100%; transition: background 0.2s; }
+    .btn-calculate:hover { background-color: #0f766e; }
+
+    .results-box { display: none; margin-top: 2rem; padding: 2rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; }
+    .results-box h2 { color: #166534; margin-bottom: 1rem; font-size: 1.5rem; text-align: center; }
+    .zone-item { background: white; padding: 1rem; border-radius: 6px; border: 1px solid #86efac; margin-bottom: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+    .zone-name { font-weight: 600; color: #166534; }
+    .zone-val { font-weight: 700; color: #14532d; }
+
+    footer { background-color: var(--secondary-color); color: #94a3b8; padding: 2rem 0; text-align: center; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-wrapper">
+      <a href="index.html" class="logo">Vita<span>Salud</span></a>
+      <a href="index.html" class="btn-back">← Volver al Inicio</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="calc-header">
+      <h1>Calculadora de Pulsaciones y Zonas de Entrenamiento</h1>
+      <p>Calcula tu frecuencia cardíaca máxima y tus rangos de pulsaciones para quemar grasa o mejorar resistencia.</p>
+    </div>
+
+    <div class="calc-container">
+      <form id="pulsacionesForm">
+        <div class="form-group">
+          <label for="edad">Tu Edad (años)</label>
+          <input type="number" id="edad" placeholder="Ej. 35" required min="10" max="100">
+        </div>
+        <button type="button" class="btn-calculate" onclick="calcularPulsaciones()">Calcular Zonas Cardíacas</button>
+      </form>
+
+      <div id="resultsBox" class="results-box">
+        <h2>Tus Zonas de Pulsaciones (ppm)</h2>
+        <div class="zone-item">
+          <span class="zone-name">Frecuencia Cardíaca Máxima (FCM)</span>
+          <span class="zone-val" id="resMax">-</span>
+        </div>
+        <div class="zone-item">
+          <span class="zone-name">Zona de Quema de Grasa (60-70%)</span>
+          <span class="zone-val" id="resGrasa">-</span>
+        </div>
+        <div class="zone-item">
+          <span class="zone-name">Zona Aeróbica / Resistencia (70-80%)</span>
+          <span class="zone-val" id="resAerobica">-</span>
+        </div>
+        <div class="zone-item">
+          <span class="zone-name">Zona Anaeróbica / Alta Intensidad (80-90%)</span>
+          <span class="zone-val" id="resAnaerobica">-</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 VitaSalud. Herramienta orientativa de rendimiento físico.</p>
+    </div>
+  </footer>
+
+  <script>
+    function calcularPulsaciones() {
+      const edad = parseInt(document.getElementById('edad').value);
+
+      if (!edad) {
+        alert("Por favor, introduce tu edad.");
+        return;
+      }
+
+      // Fórmula clásica de FCM: 220 - edad
+      const fcm = 220 - edad;
+      const grasaMin = Math.round(fcm * 0.60);
+      const grasaMax = Math.round(fcm * 0.70);
+      const aeroMin = Math.round(fcm * 0.70);
+      const aeroMax = Math.round(fcm * 0.80);
+      const anaerMin = Math.round(fcm * 0.80);
+      const anaerMax = Math.round(fcm * 0.90);
+
+      document.getElementById('resMax').innerText = fcm + " ppm";
+      document.getElementById('resGrasa').innerText = grasaMin + " - " + grasaMax + " ppm";
+      document.getElementById('resAerobica').innerText = aeroMin + " - " + aeroMax + " ppm";
+      document.getElementById('resAnaerobica').innerText = anaerMin + " - " + anaerMax + " ppm";
+
+      document.getElementById('resultsBox').style.display = "block";
+    }
+  </script>
+</body>
+</html>
