@@ -1,1 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3477896786452419"
+     crossorigin="anonymous"></script>
+ <meta name="google-adsense-account" content="ca-pub-3477896786452419">
+  <title>VitaSalud | Portal Informativo de Salud, Nutrición y Bienestar</title>
+  <meta name="description" content="Portal informativo independiente de salud, guías de nutrición, chequeos preventivos, salud mental, longevidad y calculadoras interactivas de salud.">
+  <style>
+    :root {
+      --primary-color: #0d9488;
+      --primary-hover: #0f766e;
+      --secondary-color: #1e293b;
+      --accent-color: #f59e0b;
+      --bg-light: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #334155;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+    header { background-color: #ffffff; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; box-shadow: var(--shadow-sm); }
+    .nav-wrapper { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+    .logo { font-size: 1.6rem; font-weight: 800; color: var(--secondary-color); display: flex; align-items: center; gap: 0.3rem; }
+    .logo span { color: var(--primary-color); }
+    
+    nav ul { display: flex; list-style: none; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+    nav a { font-weight: 600; font-size: 0.9rem; color: var(--text-main); transition: color 0.2s; }
+    nav a:hover { color: var(--primary-color); }
+
+    .btn-primary { background-color: var(--primary-color); color: #ffffff; padding: 0.65rem 1.4rem; border-radius: 6px; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; transition: background-color 0.2s; display: inline-block; text-align: center; }
+    .btn-primary:hover { background-color: var(--primary-hover); }
+    .btn-outline { border: 2px solid var(--primary-color); color: var(--primary-color); padding: 0.6rem 1.3rem; border-radius: 6px; font-weight: 600; background: transparent; transition: all 0.2s; display: inline-block; text-align: center; }
+    .btn-outline:hover { background-color: var(--primary-color); color: #ffffff; }
+
+    .hero { background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 100%); padding: 4.5rem 0 3.5rem 0; border-bottom: 1px solid var(--border-color); }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 3rem; align-items: center; }
+    .hero-text h1 { font-size: 2.6rem; line-height: 1.25; color: var(--secondary-color); margin-bottom: 1.2rem; font-weight: 800; }
+    .hero-text p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 2rem; }
+    
+    .stats-bar { display: flex; gap: 2rem; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.08); }
+    .stat-item h4 { font-size: 1.5rem; color: var(--primary-color); font-weight: 700; }
+    .stat-item p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0; }
+
+    .hero-card { background: #ffffff; padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); }
+    .hero-card h3 { font-size: 1.3rem; color: var(--secondary-color); margin-bottom: 1rem; }
+
+    .section-padding { padding: 4.5rem 0; }
+    .section-header { text-align: center; max-width: 700px; margin: 0 auto 3rem auto; }
+    .section-header h2 { font-size: 2.2rem; color: var(--secondary-color); margin-bottom: 0.8rem; }
+    .section-header p { color: var(--text-muted); font-size: 1.05rem; }
+
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+    .card { background-color: var(--card-bg); border-radius: 10px; border: 1px solid var(--border-color); padding: 2rem; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    
+    .badge { position: absolute; top: -12px; right: 20px; background-color: var(--accent-color); color: #ffffff; font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 20px; text-transform: uppercase; }
+    .card-title { font-size: 1.4rem; color: var(--secondary-color); margin-bottom: 0.8rem; }
+    
+    .card-features { list-style: none; margin-bottom: 1.8rem; }
+    .card-features li { padding: 0.5rem 0; border-bottom: 1px dashed var(--border-color); font-size: 0.95rem; color: var(--text-main); display: flex; align-items: center; gap: 0.5rem; }
+    .card-features li::before { content: "✓"; color: var(--primary-color); font-weight: bold; }
+
+    .faq-item { border-bottom: 1px solid var(--border-color); padding: 1.2rem 0; }
+    .faq-question { font-size: 1.1rem; font-weight: 600; color: var(--secondary-color); }
+    .faq-answer { margin-top: 0.8rem; color: var(--text-muted); font-size: 0.95rem; }
+
+    footer { background-color: var(--secondary-color); color: #94a3b8; padding: 3.5rem 0 2rem 0; font-size: 0.9rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem; }
+    .footer-brand h3 { color: #ffffff; font-size: 1.4rem; margin-bottom: 1rem; }
+    .footer-links h4 { color: #ffffff; margin-bottom: 1rem; font-size: 1rem; }
+    .footer-links ul { list-style: none; }
+    .footer-links li { margin-bottom: 0.6rem; }
+    .footer-links a:hover { color: #ffffff; }
+    .disclaimer { border-top: 1px solid #334155; padding-top: 1.5rem; font-size: 0.8rem; text-align: center; line-height: 1.5; color: #64748b; }
+
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      nav ul { display: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVEGACIÓN PRINCIPAL -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="index.html" class="logo">Vita<span>Salud</span></a>
+      <nav>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#calculadoras">Calculadoras Interactivas</a></li>
+          <li><a href="#guias-clasicas">Guías Clave</a></li>
+          <li><a href="#guias-avanzadas">Artículos Avanzados</a></li>
+          <li><a href="mitos.html">Cazadores de Mitos</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <a href="calculadora.html" class="btn-primary">Plan Nutricional</a>
+    </div>
+  </header>
+
+  <!-- HERO PRINCIPAL -->
+  <section class="hero" id="inicio">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1>Tu Portal Informativo de Salud, Nutrición y Bienestar</h1>
+        <p>Aprende a cuidar tu salud y la de los tuyos con información rigurosa, guías clínicas basadas en evidencia científica, herramientas interactivas y hábitos diseñados para maximizar tu esperanza y calidad de vida.</p>
+        <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+          <a href="calculadora.html" class="btn-primary">🥗 Crear Menú y Dieta</a>
+          <a href="mitos.html" class="btn-outline">❌ Cazadores de Mitos</a>
+        </div>
+        <div class="stats-bar">
+          <div class="stat-item">
+            <h4>100%</h4>
+            <p>Contenido clínico gratuito</p>
+          </div>
+          <div class="stat-item">
+            <h4>5 Herramientas</h4>
+            <p>Calculadoras online avanzadas</p>
+          </div>
+          <div class="stat-item">
+            <h4>+10 Guías</h4>
+            <p>Divulgación médica exhaustiva</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="hero-card">
+        <h3>Explora Nuestros Contenidos</h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.2rem;">Acceso directo a nuestras publicaciones y áreas de especialización más destacadas:</p>
+        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+          <a href="salud-mental.html" class="btn-outline" style="text-align: center;">🧠 Salud Mental y Estrés Crónico</a>
+          <a href="longevidad.html" class="btn-outline" style="text-align: center;">🧬 Longevidad y Zonas Azules</a>
+          <a href="ejercicio-fuerza.html" class="btn-outline" style="text-align: center;">💪 Guía de Fuerza y Movilidad</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN DE CALCULADORAS INTERACTIVAS -->
+  <section class="section-padding" id="calculadoras" style="background-color: #ffffff; border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="section-header">
+        <h2>Herramientas y Calculadoras de Salud</h2>
+        <p>Utiliza nuestra completa suite de herramientas interactivas gratuitas para evaluar tus métricas físicas, necesidades energéticas y rendimiento deportivo con total precisión y privacidad local.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <span class="badge">DIETA Y MENÚ</span>
+          <div>
+            <h3 class="card-title">Calculadora de Calorías y Dieta</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Calcula tu tasa metabólica basal y gasto calórico total diario. Obtén un plan de macronutrientes estructurado y un menú diario completo de 5 comidas adaptado exactamente a tus metas corporales, ya sea déficit para pérdida de grasa o superávit para ganancia muscular.</p>
+            <ul class="card-features">
+              <li>Cálculo de macros personalizados</li>
+              <li>Menú diario de 5 comidas completo</li>
+              <li>Orientación profesional para objetivos</li>
+            </ul>
+          </div>
+          <a href="calculadora.html" class="btn-primary">Usar Calculadora de Dieta</a>
+        </div>
+
+        <div class="card">
+          <span class="badge" style="background-color: #0284c7;">IMC</span>
+          <div>
+            <h3 class="card-title">Calculadora de IMC</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Descubre de forma instantánea tu Índice de Masa Corporal introduciendo tu peso y estatura. Conoce en qué categoría clínica te encuentras según los estándares oficiales de la Organización Mundial de la Salud (OMS) y lee las recomendaciones asociadas.</p>
+            <ul class="card-features">
+              <li>Resultado numérico rápido y preciso</li>
+              <li>Clasificación de peso (normopeso, sobrepeso...)</li>
+              <li>Recomendaciones de salud orientativas</li>
+            </ul>
+          </div>
+          <a href="imc.html" class="btn-outline">Calcular mi IMC</a>
+        </div>
+
+        <div class="card">
+          <span class="badge" style="background-color: #4f46e5;">DEPORTE</span>
+          <div>
+            <h3 class="card-title">Gasto Calórico por Actividad</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Estima con exactitud cuántas kilocalorías quemas durante una sesión específica de ejercicio físico. Selecciona entre múltiples disciplinas (running, natación, entrenamiento de fuerza con pesas, ciclismo, HIIT) y ajusta los minutos dedicados según tu peso corporal actual.</p>
+            <ul class="card-features">
+              <li>Selección de múltiples deportes (METs)</li>
+              <li>Ajuste por tiempo de duración y peso</li>
+              <li>Estimación energética altamente fiable</li>
+            </ul>
+          </div>
+          <a href="gasto-calorico.html" class="btn-primary">Calcular Gasto Físico</a>
+        </div>
+
+        <div class="card">
+          <span class="badge" style="background-color: #059669;">HIDRATACIÓN</span>
+          <div>
+            <h3 class="card-title">Calculadora de Agua Diaria</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Calcula los litros exactos de agua que necesita tu organismo a lo largo del día integrando tu masa corporal y los minutos dedicados a la actividad física. Mantén una correcta hidratación celular para optimizar tu metabolismo y rendimiento cognitivo.</p>
+            <ul class="card-features">
+              <li>Cálculo basado en masa corporal real</li>
+              <li>Ajuste extra por minutos de ejercicio</li>
+              <li>Pautas profesionales de hidratación</li>
+            </ul>
+          </div>
+          <a href="agua.html" class="btn-outline">Calcular Agua Diaria</a>
+        </div>
+
+        <div class="card">
+          <span class="badge" style="background-color: #dc2626;">CARDIO</span>
+          <div>
+            <h3 class="card-title">Zonas de Frecuencia Cardíaca</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Conoce tu frecuencia cardíaca máxima estimada en función de tu edad y descubre tus rangos exactos de pulsaciones por minuto (ppm) para entrenar de forma óptima en la zona de quema de grasa, resistencia aeróbica o alta intensidad anaeróbica.</p>
+            <ul class="card-features">
+              <li>Cálculo científico de FCM por edad</li>
+              <li>Zonas específicas de quema de grasa</li>
+              <li>Rangos de resistencia y alta intensidad</li>
+            </ul>
+          </div>
+          <a href="pulsaciones.html" class="btn-primary">Ver Zonas Cardíacas</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUÍAS CLÁSICAS -->
+  <section class="section-padding" id="guias-clasicas">
+    <div class="container">
+      <div class="section-header">
+        <h2>Guías Clave de Salud y Nutrición</h2>
+        <p>Fundamentos esenciales y rigurosos redactados por nuestro equipo para comprender el funcionamiento metabólico, la prevención de enfermedades y el autocuidado cotidiano.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div>
+            <h3 class="card-title">Nutrición y Metabolismo</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Aprende a estructurar tus menús diarios de forma equilibrada, comprender en profundidad el papel de los macronutrientes esenciales (proteínas, grasas saludables e hidratos) y adoptar hábitos nutricionales verdaderamente sostenibles a largo plazo sin restricciones absurdas.</p>
+            <ul class="card-features">
+              <li>Desmontando mitos sobre ultraprocesados</li>
+              <li>Guías prácticas para dietas equilibradas</li>
+              <li>Estrategias de hidratación efectiva</li>
+            </ul>
+          </div>
+          <a href="nutricion.html" class="btn-primary">Leer Guías de Nutrición</a>
+        </div>
+
+        <div class="card">
+          <div>
+            <h3 class="card-title">Salud Preventiva</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Información detallada sobre la interpretación básica de analíticas de sangre, revisiones médicas recomendadas según los tramos de edad y la identificación temprana de los principales factores de riesgo cardiovascular y metabólico.</p>
+            <ul class="card-features">
+              <li>Valores clave en una analítica de control</li>
+              <li>Importancia de los chequeos preventivos</li>
+              <li>Protocolos de prevención cardiovascular</li>
+            </ul>
+          </div>
+          <a href="salud-preventiva.html" class="btn-outline">Ver Artículos Preventivos</a>
+        </div>
+
+        <div class="card">
+          <div>
+            <h3 class="card-title">Higiene del Sueño</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Estrategias basadas en la neurobiología del descanso para mejorar la calidad de tu sueño nocturno, regular tus ritmos circadianos naturales, reducir el impacto de la fatiga crónica y optimizar tus niveles de energía durante las horas de vigilia.</p>
+            <ul class="card-features">
+              <li>Optimización de ritmos circadianos</li>
+              <li>Creación del entorno ideal de descanso</li>
+              <li>Gestión eficaz de la fatiga cotidiana</li>
+            </ul>
+          </div>
+          <a href="descanso.html" class="btn-primary">Explorar Consejos de Descanso</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTÍCULOS AVANZADOS Y MITOS -->
+  <section class="section-padding" id="guias-avanzadas" style="background-color: #ffffff; border-top: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="section-header">
+        <h2>Artículos Especializados y Divulgación</h2>
+        <p>Contenido profundo y riguroso sobre neurociencia del estrés, longevidad celular, entrenamiento de fuerza y desmitificación contrastada de creencias populares.</p>
+      </div>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div>
+            <h3 class="card-title">Salud Mental y Estrés</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Comprende el impacto fisiológico del cortisol crónico, el funcionamiento del eje HHA y adquiere herramientas prácticas de regulación emocional y estimulación del nervio vago respaldadas por la neurociencia moderna.</p>
+            <ul class="card-features">
+              <li>Neurobiología clínica de la ansiedad</li>
+              <li>Técnicas de respiración y nervio vago</li>
+              <li>Estrategias de bienestar emocional</li>
+            </ul>
+          </div>
+          <a href="salud-mental.html" class="btn-primary">Leer Salud Mental</a>
+        </div>
+
+        <div class="card">
+          <div>
+            <h3 class="card-title">Longevidad y Zonas Azules</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Descubre los secretos moleculares, los mecanismos de autofagia celular y los patrones de estilo de vida que permiten a las poblaciones de las Zonas Azules alcanzar una longevidad activa y plena de autonomía.</p>
+            <ul class="card-features">
+              <li>Autofagia y salud mitocondrial</li>
+              <li>Prevención clave de la sarcopenia</li>
+              <li>Propósito vital y longevidad social</li>
+            </ul>
+          </div>
+          <a href="longevidad.html" class="btn-outline">Ver Guía de Longevidad</a>
+        </div>
+
+        <div class="card">
+          <div>
+            <h3 class="card-title">Entrenamiento de Fuerza</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">Por qué el trabajo contra resistencia es un requisito biológico innegociable para preservar la densidad ósea, la salud metabólica articular y la funcionalidad motora a medida que envejecemos.</p>
+            <ul class="card-features">
+              <li>Sensibilidad insulínica y músculo</li>
+              <li>Protección ósea frente a osteoporosis</li>
+              <li>Autocarga y movilidad funcional</li>
+            </ul>
+          </div>
+          <a href="ejercicio-fuerza.html" class="btn-primary">Leer Guía de Fuerza</a>
+        </div>
+
+        <div class="card" style="grid-column: 1 / -1; background: linear-gradient(135deg, #f0fdf4 0%, #ccfbf1 100%); border-color: var(--primary-color);">
+          <span class="badge" style="background-color: var(--primary-color);">SECCIÓN ESTRELLA</span>
+          <div>
+            <h3 class="card-title" style="color: var(--secondary-color);">Cazadores de Mitos de la Salud</h3>
+            <p style="color: var(--text-main); font-size: 1.05rem; margin-bottom: 1.2rem;">¿Es obligatorio beber exactamente dos litros de agua en vaso? ¿Hacer abdominales elimina la grasa localizada del abdomen? ¿Comer huevos a diario dispara el colesterol? Adéntrate en nuestra guía definitiva donde desmontamos con rigor clínico los mayores bulos de la nutrición y el fitness.</p>
+            <ul class="card-features">
+              <li>Desmontando dogmas populares falsos</li>
+              <li>Respuestas avaladas por ensayos clínicos</li>
+              <li>Lectura extensa, detallada y muy ammena</li>
+            </ul>
+          </div>
+          <a href="mitos.html" class="btn-primary" style="display: inline-block; width: fit-content; margin-top: 1rem;">Acceder a Cazadores de Mitos</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREGUNTAS FRECUENTES (FAQ) -->
+  <section class="section-padding faq-section" id="faq">
+    <div class="container" style="max-width: 800px;">
+      <div class="section-header">
+        <h2>Preguntas Frecuentes</h2>
+        <p>Respuestas transparentes sobre la naturaleza, propósito y funcionamiento de nuestro portal divulgativo.</p>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">¿El uso de las calculadoras y guías de VitaSalud es completamente gratuito?</div>
+        <div class="faq-answer">Sí. Absolutamente todo el contenido en texto, guías especializadas y herramientas interactivas alojadas en VitaSalud son de libre acceso y están concebidas como un recurso de divulgación independiente al servicio de la comunidad.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">¿Los resultados obtenidos en las calculadoras reemplazan una consulta médica?</div>
+        <div class="faq-answer">En ningún caso. Las herramientas ofrecen estimaciones orientativas basadas exclusivamente en fórmulas matemáticas estándar de literatura científica. Ante cualquier duda clínica, síntoma o pauta terapéutica, debe acudir siempre a un médico colegiado o profesional sanitario cualificado.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER Y AVISOS LEGALES -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>VitaSalud</h3>
+          <p>Portal educativo e informativo independiente sobre salud, nutrición, hábitos de vida saludables, longevidad activa y bienestar integral.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Herramientas</h4>
+          <ul>
+            <li><a href="calculadora.html">Calculadora de Dieta</a></li>
+            <li><a href="imc.html">Calculadora de IMC</a></li>
+            <li><a href="gasto-calorico.html">Gasto Calórico</a></li>
+            <li><a href="agua.html">Hidratación Diaria</a></li>
+            <li><a href="pulsaciones.html">Zonas Cardíacas</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Guías y Contenido</h4>
+          <ul>
+            <li><a href="nutricion.html">Nutrición</a></li>
+            <li><a href="salud-preventiva.html">Salud Preventiva</a></li>
+            <li><a href="salud-mental.html">Salud Mental</a></li>
+            <li><a href="longevidad.html">Longevidad</a></li>
+            <li><a href="mitos.html">Cazadores de Mitos</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="aviso-legal.html">Aviso Legal</a></li>
+            <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+            <li><a href="politica-cookies.html">Política de Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="disclaimer">
+        <p><strong>Aviso Médico Legal:</strong> La información contenida en VitaSalud tiene un propósito estrictamente divulgativo, educativo e informativo. En ningún caso sustituye de forma directa o indirecta la consulta, el diagnóstico o el tratamiento proporcionado por un médico colegiado o un profesional sanitario cualificado.</p>
+        <p style="margin-top: 0.8rem;">© 2026 VitaSalud. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
